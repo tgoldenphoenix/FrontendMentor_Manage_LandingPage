@@ -2,14 +2,14 @@
   /* custom properties */
 
   --clr-accent-500: hsl(12, 60%, 45%); /* accent is the buttons */
-  --clr-accent-400: hsl(12, 88%, 59%);
+  --clr-accent-400: hsl(12, 88%, 59%); /* background for cta section */
   --clr-accent-300: hsl(12, 88%, 75%);
   --clr-accent-100: hsl(13, 100%, 96%);
 
-  --clr-primary-400: hsl(228, 39%, 23%); /* the logo, headings, p text */
+  --clr-primary-400: hsl(228, 39%, 23%); /* the logo, headings, p text in the body */
 
-  --clr-neutral-900: hsl(233, 12%, 13%);
-  --clr-neutral-100: hsl(0 0% 98%);
+  --clr-neutral-900: hsl(233, 12%, 13%); /* background of the footer */
+  --clr-neutral-100: hsl(0 0% 98%); /* text color */
 
   --ff-primary: "Be Vietnam Pro", sans-serif;
 
@@ -29,7 +29,7 @@
   --fs-900: 3.5rem; /* 56px */
 
   --fs-body: var(--fs-400);
-  --fs-primary-heading: var(--fs-800);
+  --fs-primary-heading: var(--fs-800); /* h1 */
   --fs-secondary-heading: var(--fs-700);
   --fs-nav: var(--fs-500);
   --fs-button: var(--fs-300);
@@ -131,7 +131,7 @@ body {
 }
 
 p:not([class]) {
-  opacity: 0.7;
+  opacity: 0.7; /* Causing some issue */
   max-width: 32ch;
 }
 
@@ -150,7 +150,7 @@ p[data-width="wide"] {
   padding: 1.25em 2.5em;
   font-weight: var(--fw-bold);
   font-size: var(--fs-button);
-  line-height: 1;
+  line-height: 1; /* make the button more "centered" */
   color: var(--clr-neutral-100);
   background-color: var(--clr-accent-400);
   box-shadow: 0 1.125em 1em -1em var(--clr-accent-500);
@@ -184,8 +184,8 @@ p[data-width="wide"] {
   align-items: center;
 }
 
-.mobile-nav-toggle {
-  display: none;
+.mobile-nav-toggle { /* Only display in smaller screen size */
+  display: none; /* This remove the element out of the HTML flow */
 }
 
 .nav-list {
@@ -209,13 +209,14 @@ p[data-width="wide"] {
 }
 
 @media (max-width: 50rem) {
-  .primary-navigation {
-    display: none;
+  .primary-navigation { /* only appears at <= 50rem screen size*/
+    /* cái element này placed later in the HTML code so it appears on top of the data-overlay element placed before */
+    display: none; /* At smaller screen, only display when .mobile-nav-toggle is clicked. At large screen, always display block */
 
-    position: fixed;
+    position: fixed; /* removed from the normal document flow */
     padding: var(--size-700);
-    inset: 7rem var(--size-400) auto;
-    max-width: 25rem;
+    inset: 7rem var(--size-400) auto; /* a shorthand that corresponds to the top, right, bottom, and/or left. In this case top left&right bottom */
+    max-width: 30rem;
     margin-left: auto;
     background: var(--clr-neutral-100);
     border-radius: var(--size-100);
@@ -225,7 +226,7 @@ p[data-width="wide"] {
   .primary-header[data-overlay]::before {
     content: "";
     position: fixed;
-    inset: 0;
+    inset: 0; /* makes it take up the whole page */
     /* height: 100vh; */
     background-image: linear-gradient(rgb(0 0 0 / 0), rgb(0 0 0 / 0.8));
   }
@@ -237,7 +238,7 @@ p[data-width="wide"] {
     font-weight: var(--fw-bold);
   }
 
-  .primary-navigation[data-visible] {
+  .primary-navigation[data-visible] { /* This has more specificity than the .primary-navigation above */
     display: block;
   }
 
@@ -272,11 +273,13 @@ p[data-width="wide"] {
 }
 
 .container {
+  /* These two are local variables that only work inside container */
   --max-width: 1110px;
   --padding: 1rem;
 
-  width: min(var(--max-width), 100% - (var(--padding) * 2));
-  margin-inline: auto;
+  width: min(var(--max-width), 100% - (var(--padding) * 2)); /* trên này khỏi cần dùng calc() vì inside of min() */
+  /* width: calc(100% - (var(--padding) * 2)); /* khi lấy % trừ cho rem là hai unit khác nhau phải dùng calc() */
+  margin-inline: auto; /* to center the container */
 }
 
 :where(.flow :not(:first-child)) {
@@ -290,8 +293,9 @@ p[data-width="wide"] {
 
 @media (min-width: 50em) {
   .even-columns {
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
+    grid-auto-flow: column; /* row by default */
+    grid-auto-columns: 1fr; /* All implicit grid tracks have 1fr (equal size) */
+    /* You can also create two equal columns with flexbox */
   }
 }
 
@@ -359,7 +363,7 @@ p[data-width="wide"] {
   font-size: var(--fs-600);
 }
 
-.padding-block-900 {
+.padding-block-900 { /* top and bottom padding */
   padding-block: var(--size-900);
 }
 .padding-block-700 {
