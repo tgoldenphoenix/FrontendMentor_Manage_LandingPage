@@ -2,14 +2,15 @@
   /* custom properties */
 
   --clr-accent-500: hsl(12, 60%, 45%); /* accent is the buttons */
+
   --clr-accent-400: hsl(12, 88%, 59%); /* background for cta section */
   --clr-accent-300: hsl(12, 88%, 75%);
   --clr-accent-100: hsl(13, 100%, 96%);
 
   --clr-primary-400: hsl(228, 39%, 23%); /* the logo, headings, p text in the body */
 
-  --clr-neutral-900: hsl(233, 12%, 13%); /* background of the footer */
-  --clr-neutral-100: hsl(0 0% 98%); /* text color */
+  --clr-neutral-900: hsl(232, 12%, 13%); /* background of the footer */
+  --clr-neutral-100: hsl(0 0% 100%); /* text color */
 
   --ff-primary: "Be Vietnam Pro", sans-serif;
 
@@ -131,7 +132,8 @@ body {
 }
 
 p:not([class]) {
-  opacity: 0.7; /* Causing some issue */
+  /* Causing some issue  */
+  opacity: 0.7;
   max-width: 32ch;
 }
 
@@ -142,7 +144,7 @@ p[data-width="wide"] {
 /* button */
 
 .button {
-  display: inline-block;
+  display: inline-flex; /* The element behaves like an inline-level element and lays out its content according to the flexbox model. */
   cursor: pointer;
   text-decoration: none;
   border: 0;
@@ -258,7 +260,34 @@ p[data-width="wide"] {
   }
 }
 
+/* cta */
+
+.cta {
+  position: relative;
+  isolation: isolate;
+  text-align: center;
+}
+
+@media (min-width: 50em) {
+  .cta {
+    text-align: left;
+  }
+}
+
+.cta::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: url("images/bg-tablet-pattern.svg"),
+    url("images/bg-tablet-pattern.svg");
+  background-position: -15rem -5rem, 80rem -42rem;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+}
+
 /* Utility classes */
+/* Utility classes nên đặt ở dưới cuối cùng file CSS để nó always win */
 
 .visually-hidden {
   position: absolute;
@@ -282,10 +311,6 @@ p[data-width="wide"] {
   margin-inline: auto; /* to center the container */
 }
 
-:where(.flow :not(:first-child)) {
-  margin-top: var(--flow-spacer, 3em);
-}
-
 .even-columns {
   display: grid;
   gap: 1rem;
@@ -297,6 +322,25 @@ p[data-width="wide"] {
     grid-auto-columns: 1fr; /* All implicit grid tracks have 1fr (equal size) */
     /* You can also create two equal columns with flexbox */
   }
+}
+
+.vertical-align-center {
+  align-items: center; /* center the inverted button */
+}
+
+.justify-self-end {
+  justify-self: end; /* only works with grid, not flexbox */
+}
+
+@media (min-width: 50em) {
+  .justify-self-end-md {
+    justify-self: end;
+  }
+}
+
+:where(.flow :not(:first-child)) { /* Select every sibling other than the first one */
+  /* :where() always has 0 specificity */
+  margin-top: var(--flow-spacer, 3em);
 }
 
 .text-primary-400 {
